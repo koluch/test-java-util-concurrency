@@ -22,7 +22,7 @@ public class CountDownLatchImpl {
         return x * x;
     };
 
-    static final List<Integer> data = new ArrayList<>();
+    static final Set<Integer> data = new HashSet<>();
     static {
         Random random = new Random();
         for (int i = 0; i < 100; i++) {
@@ -43,13 +43,13 @@ public class CountDownLatchImpl {
 
     @Benchmark
     public void testSerial() {
-        map(new HashSet<>(data), f);
+        map(data, f);
 
     }
 
     @Benchmark
     public void testParallel() {
-        pmap(new HashSet<>(data), f);
+        pmap(data, f);
     }
 
 

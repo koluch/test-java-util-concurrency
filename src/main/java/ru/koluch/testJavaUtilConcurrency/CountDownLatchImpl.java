@@ -42,14 +42,13 @@ public class CountDownLatchImpl {
     }
 
     @Benchmark
-    public void testSerial() {
-        map(data, f);
-
+    public Set<?> testSerial() {
+        return map(data, f);
     }
 
     @Benchmark
-    public void testParallel() {
-        pmap(data, f);
+    public Set<?> testParallel() {
+        return pmap(data, f);
     }
 
 

@@ -36,17 +36,13 @@ public class CountDownLatchImpl {
 
     @Benchmark
     public void testSerial() {
-        Set<Integer> set = new HashSet<>();
-        set.addAll(data);
-        map(set, f);
+        map(new HashSet<>(data), f);
 
     }
 
     @Benchmark
     public void testParallel() {
-        Set<Integer> set = new HashSet<>();
-        set.addAll(data);
-        pmap(set, f);
+        pmap(new HashSet<>(data), f);
     }
 
 

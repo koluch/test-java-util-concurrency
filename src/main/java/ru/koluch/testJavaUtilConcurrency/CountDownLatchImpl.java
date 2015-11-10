@@ -5,6 +5,8 @@ import org.openjdk.jmh.annotations.Benchmark;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.function.Function;
+
+import org.openjdk.jmh.infra.Blackhole;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
@@ -15,7 +17,10 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
  */
 public class CountDownLatchImpl {
 
-    static final Function<Integer, Integer> f = x -> x * x;
+    static final Function<Integer, Integer> f = x -> {
+        Blackhole.consumeCPU(200000);
+        return x * x;
+    };
 
     static final List<Integer> data = new ArrayList<>();
     static {
@@ -28,6 +33,8 @@ public class CountDownLatchImpl {
     public static void main(String[] args) throws RunnerException {
         Options opt = new OptionsBuilder()
                 .include(CountDownLatchImpl.class.getSimpleName())
+                .warmupIterations(5)
+                .measurementIterations(5)
                 .forks(1)
                 .build();
 

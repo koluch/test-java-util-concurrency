@@ -6,6 +6,9 @@ import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.function.Function;
 
+import org.openjdk.jmh.annotations.Scope;
+import org.openjdk.jmh.annotations.Setup;
+import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.infra.Blackhole;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
@@ -15,31 +18,27 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 /**
  * Created by Nikolai_Mavrenkov on 03/06/15.
  */
+@State(Scope.Thread)
 public class CountDownLatchImpl {
 
-    static final Function<Integer, Integer> f = x -> {
-        Blackhole.consumeCPU(200000);
-        return x * x;
-    };
+    Function<Integer, Integer> f;
+    Set<Integer> data;
 
-    static final Set<Integer> data = new HashSet<>();
-    static {
-        Random random = new Random();
-        for (int i = 0; i < 100; i++) {
-            data.add(random.nextInt());
+    @Setup
+    public void init() {
+        f = x -> {
+            Blackhole.consumeCPU(200000);
+            return x * x;
+        };
+        data = new HashSet<>();
+        {
+            Random random = new Random();
+            for (int i = 0; i < 100; i++) {
+                data.add(random.nextInt());
+            }
         }
     }
     
-    public static void main(String[] args) throws RunnerException {
-        Options opt = new OptionsBuilder()
-                .include(CountDownLatchImpl.class.getSimpleName())
-                .warmupIterations(5)
-                .measurementIterations(5)
-                .forks(1)
-                .build();
-
-        new Runner(opt).run();
-    }
 
     @Benchmark
     public Set<?> testSerial() {
@@ -76,6 +75,18 @@ public class CountDownLatchImpl {
             throw new RuntimeException("Error while await processing finish", e);
         }
         return result;
+    }
+
+
+    public static void main(String[] args) throws RunnerException {
+        Options opt = new OptionsBuilder()
+                .include(CountDownLatchImpl.class.getSimpleName())
+                .warmupIterations(5)
+                .measurementIterations(5)
+                .forks(1)
+                .build();
+
+        new Runner(opt).run();
     }
 }
 

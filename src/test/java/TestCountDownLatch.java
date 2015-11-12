@@ -1,10 +1,7 @@
 import org.junit.Test;
 import ru.koluch.testJavaUtilConcurrency.CountDownLatchImpl;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Function;
 
 import static junit.framework.Assert.assertEquals;
@@ -14,21 +11,32 @@ import static junit.framework.Assert.assertEquals;
  */
 public class TestCountDownLatch {
 
-    static final Function<Integer, Integer> f = x -> x * x;
+    @Test
+    public void testEquals() {
 
-    static final List<Integer> data = new ArrayList<>();
-    static {
+        Function<Integer, Integer> f = x -> x * x;
+
+        List<Integer> data = new ArrayList<>();
         Random random = new Random(42);
         for (int i = 0; i < 10000; i++) {
             data.add(random.nextInt());
         }
+        
+        CountDownLatchImpl countDownLatch = new CountDownLatchImpl();
+        Set<Integer> serial = countDownLatch.map(new HashSet<>(data), f);
+        Set<Integer> parallel = countDownLatch.pmap(new HashSet<>(data), f);
+        assertEquals(serial, parallel);
     }
 
-    @Test
-    public void testEquals() {
+    @Test(expected = RuntimeException.class)
+    public void testPmapException() {
+        Function<Integer, Integer> f = x -> x / x;
+        List<Integer> data = new ArrayList<>();
+        for (int i = 0; i < 10000; i++) {
+            data.add(i);
+        }
         CountDownLatchImpl countDownLatch = new CountDownLatchImpl();
-        countDownLatch.testParallel();
-        assertEquals(countDownLatch.map(new HashSet<>(data), f), countDownLatch.pmap(new HashSet<>(data), f));
+        countDownLatch.pmap(new HashSet<>(data), f);
     }
-    
+
 }

@@ -68,45 +68,7 @@ public class CountDownLatchImpl {
     }
 
 
-    Function<Integer, Integer> f;
-    Set<Integer> data;
 
-    @Setup
-    public void init() {
-        f = x -> {
-            Blackhole.consumeCPU(200000);
-            return x * x;
-        };
-        data = new HashSet<>();
-        {
-            Random random = new Random();
-            for (int i = 0; i < 100; i++) {
-                data.add(random.nextInt());
-            }
-        }
-    }
-
-
-    @Benchmark
-    public Set<?> testSerial() {
-        return map(data, f);
-    }
-
-    @Benchmark
-    public Set<?> testParallel() {
-        return pmap(data, f);
-    }
-
-    public static void main(String[] args) throws RunnerException {
-        Options opt = new OptionsBuilder()
-                .include(CountDownLatchImpl.class.getSimpleName())
-                .warmupIterations(5)
-                .measurementIterations(5)
-                .forks(1)
-                .build();
-
-        new Runner(opt).run();
-    }
 }
 
 

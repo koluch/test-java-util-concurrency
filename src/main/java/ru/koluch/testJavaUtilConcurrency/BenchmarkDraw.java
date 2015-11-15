@@ -56,18 +56,21 @@ public class BenchmarkDraw {
         /*
             Group table rows by busy factor and draw chart for each
          */
+        String group1Column = "(dataSize)";
+        String group2Column = "(busyFactor)";
+
         Map<String, List<SortedMap<String, String>>> byBusyFactor = table.rowKeySet()
                 .stream()
                 .map(table::row)
-                .collect(Collectors.groupingBy((row) -> row.get("(busyFactor)")));
+                .collect(Collectors.groupingBy((row) -> row.get(group1Column)));
 
         ChartTool chartTool = new ChartTool();
-        for (Map.Entry<String, List<SortedMap<String, String>>> busyToRows : byBusyFactor.entrySet()) {
+        for (Map.Entry<String, List<SortedMap<String, String>>> group1ToRows : byBusyFactor.entrySet()) {
 
             Map<String, List<Double>> seriesList = new HashMap<>();
 
-            String busyFactor = busyToRows.getKey();
-            Map<String, List<SortedMap<String, String>>> byBench = busyToRows
+            String group1Category = group1ToRows.getKey();
+            Map<String, List<SortedMap<String, String>>> byBench = group1ToRows
                     .getValue()
                     .stream()
                     .collect(Collectors.groupingBy((row) -> (String) row.get("Benchmark")));
@@ -80,10 +83,10 @@ public class BenchmarkDraw {
                 seriesList.put(bench, series);
             }
 
-            Set<String> dataSizes = busyToRows.getValue().stream().collect(Collectors.groupingBy((row) -> row.get("(dataSize)"))).keySet();
+            Set<String> dataSizes = group1ToRows.getValue().stream().collect(Collectors.groupingBy((row) -> row.get(group2Column))).keySet();
             ArrayList<String> xLabels = new ArrayList<>(dataSizes);
             Collections.sort(xLabels, (x, y) -> Double.valueOf(x).compareTo(Double.valueOf(y)));
-            System.out.println(busyFactor + ": " + chartTool.draw("busy factor: " + busyFactor, seriesList, xLabels));
+            System.out.println(group1Category + ": " + chartTool.draw(group2Column + ": " + group1Category, seriesList, xLabels));
         }
     }
 

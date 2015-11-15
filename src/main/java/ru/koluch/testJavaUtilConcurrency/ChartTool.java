@@ -31,16 +31,6 @@ import com.googlecode.charts4j.*;
 public class ChartTool {
 
 
-    public static void main(String[] args) {
-
-        ChartTool chartTool = new ChartTool();
-        HashMap<String, List<Double>> data = new HashMap<>();
-        data.put("line 1", Arrays.asList(1.0, 257.0, 30.0, 1114.0));
-        data.put("line 2", Arrays.asList(1.0, 2.0, 4.0, 8.0));
-        String url = chartTool.draw("test", data, Arrays.asList("first", "second", "third", "fourth"));
-        System.out.println(url);
-    }
-
     public String draw(String title, Map<String, List<Double>> data, List<String> xLabels) {
 
         /*

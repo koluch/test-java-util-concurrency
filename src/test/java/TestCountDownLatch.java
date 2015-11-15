@@ -1,5 +1,6 @@
 import org.junit.Test;
 import ru.koluch.testJavaUtilConcurrency.CountDownLatchImpl;
+import ru.koluch.testJavaUtilConcurrency.SerialImpl;
 
 import java.util.*;
 import java.util.function.Function;
@@ -21,10 +22,9 @@ public class TestCountDownLatch {
         for (int i = 0; i < 10000; i++) {
             data.add(random.nextInt());
         }
-        
-        CountDownLatchImpl countDownLatch = new CountDownLatchImpl();
-        Set<Integer> serial = countDownLatch.map(new HashSet<>(data), f);
-        Set<Integer> parallel = countDownLatch.pmap(new HashSet<>(data), f);
+
+        Set<Integer> serial = new CountDownLatchImpl().map(new HashSet<>(data), f);
+        Set<Integer> parallel = new SerialImpl().map(new HashSet<>(data), f);
         assertEquals(serial, parallel);
     }
 
@@ -36,7 +36,7 @@ public class TestCountDownLatch {
             data.add(i);
         }
         CountDownLatchImpl countDownLatch = new CountDownLatchImpl();
-        countDownLatch.pmap(new HashSet<>(data), f);
+        countDownLatch.map(new HashSet<>(data), f);
     }
 
 }

@@ -22,19 +22,10 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
  * Created by Nikolai_Mavrenkov on 03/06/15.
  */
 @State(Scope.Thread)
-public class CountDownLatchImpl {
+public class CountDownLatchImpl implements IMapper {
 
-
-
-    public <T,R> Set<R> map(Set<T> list, Function<T,R> f) {
-        HashSet<R> result = new HashSet<>();
-        for (T x : list) {
-            result.add(f.apply(x));
-        }
-        return result;
-    }
-
-    public <T,R> Set<R> pmap(Set<T> set, Function<T,R> f) {
+    @Override
+    public <T,R> Set<R> map(Set<T> set, Function<T, R> f) {
         AtomicReference<Throwable> ex = new AtomicReference<>();
         Thread.UncaughtExceptionHandler uncaughtExceptionHandler = (t, e) -> {
             ex.set(e);

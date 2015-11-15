@@ -72,7 +72,7 @@ function printColumn(str, length) {
 }
 
 function print(data, indent) {
-    var colWidth = 20;
+    var colWidth = 25;
 
     indent = indent || 0;
     if(data.constructor === Array) {
@@ -113,6 +113,6 @@ function show(data, groups) {
     print(group.apply(null, [data].concat(groupFs)));
 }
 
-
+// example: "node show_data.js busy_factor,data_size"
 show(data, process.argv[2]);
 

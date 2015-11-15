@@ -29,15 +29,12 @@ import org.openjdk.jmh.infra.Blackhole;
 import org.openjdk.jmh.results.Result;
 import org.openjdk.jmh.results.RunResult;
 import org.openjdk.jmh.runner.Runner;
-import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 import java.io.*;
 import java.util.*;
 import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @State(Scope.Benchmark)
 public class Benchmarks {
@@ -56,7 +53,6 @@ public class Benchmarks {
 
     @Setup
     public void init() {
-        impl = new CountDownLatchImpl();
 
         f = x -> {
             Blackhole.consumeCPU(1000 * busyFactor);
@@ -71,23 +67,21 @@ public class Benchmarks {
         }
     }
 
-
-
     @Benchmark
     public Set<?> testSerial() {
-        return impl.map(data, f);
+        return new SerialImpl().map(data, f);
     }
 
     @Benchmark
-    public Set<?> testParallel() {
-        return impl.pmap(data, f);
+    public Set<?> testCountDownLatchImpl() {
+        return new CountDownLatchImpl().map(data, f);
     }
 
     public static void main(String[] args) throws Throwable {
         Options opt = new OptionsBuilder()
                 .include(Benchmarks.class.getSimpleName())
-                .warmupIterations(1)
-                .measurementIterations(1)
+                .warmupIterations(5)
+                .measurementIterations(5)
                 .forks(1)
                 .build();
 

@@ -70,6 +70,17 @@ function sort(data) {
     }
 }
 
+function comp(v1, v2) {
+    var asNumber1 = new Number(v1);
+    var asNumber2 = new Number(v2);
+    if(!isNaN(asNumber1) && !isNaN(asNumber2)) {
+        return asNumber1 - asNumber2;
+    }
+    else {
+        return v1.localeCompare(v2);
+    }
+}
+
 
 function printColumn(str, length) {
     var s = str;
@@ -119,10 +130,13 @@ function print(data, indent) {
 function show(data, groupBy, sortBy) {
     var groupFs = groupBy === undefined ? [] : groupBy.split(",").map(group => (row => row[group]));
     
-    var sortF = sortBy === undefined 
-        ? ((x, y) => 0) 
-        : groupBy.split(",").map(field => ((row1, row2) => row1[field].localeCompare(row2[field])));
+    var sortF = sortBy === undefined ? ((x, y) => 0) : sortBy.split(",").map(field => ((row1, row2) => {
+        console.log("compare1: " + JSON.stringify(row1[field]));
+        console.log("compare2: " + JSON.stringify(row2[field]));
+        return comp(row1[field], row2[field])
+    }));
 
+    
     var grouped = group.apply(null, [data].concat(groupFs));
     var sorted = sort.apply(null, [grouped].concat(sortF));
     print(sorted);

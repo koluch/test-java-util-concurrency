@@ -23,8 +23,8 @@ public class TestCountDownLatch {
             data.add(random.nextInt());
         }
 
-        Set<Integer> serial = new CountDownLatchImpl().map(new HashSet<>(data), f);
-        Set<Integer> parallel = new SerialImpl().map(new HashSet<>(data), f);
+        Set<Integer> serial = new SerialImpl().map(new HashSet<>(data), f);
+        Set<Integer> parallel = new CountDownLatchImpl().map(new HashSet<>(data), f);
         assertEquals(serial, parallel);
     }
 

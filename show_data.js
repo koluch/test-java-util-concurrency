@@ -142,7 +142,6 @@ function show(data, groupBy, sortBy) {
     print(sorted);
 }
 
-// example: node show_data.js busy_factor,data_size
 var args = {};
 process.argv.slice(2).forEach(arg => {
     if(!/^--.+=.+$/.test(arg)) throw new Error("Bad arg format: " + arg);
@@ -150,4 +149,5 @@ process.argv.slice(2).forEach(arg => {
     args[parts[0].replace(/^--/, "")] = parts[1];
 });
 
+// example: node show_data.js --groupBy=busy_factor,busy_factor --sortBy=score
 show(data, args.groupBy, args.sortBy);

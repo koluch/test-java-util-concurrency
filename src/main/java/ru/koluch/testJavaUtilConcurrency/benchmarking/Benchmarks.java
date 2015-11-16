@@ -18,7 +18,7 @@
  * Author:  Nikolay Mavrenkov <koluch@koluch.ru>
  * Created: 15.11.2015 18:08
  */
-package ru.koluch.testJavaUtilConcurrency;
+package ru.koluch.testJavaUtilConcurrency.benchmarking;
 
 
 import com.google.common.collect.TreeBasedTable;
@@ -31,6 +31,8 @@ import org.openjdk.jmh.results.RunResult;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
+import ru.koluch.testJavaUtilConcurrency.CountDownLatchImpl;
+import ru.koluch.testJavaUtilConcurrency.SerialImpl;
 
 import java.io.*;
 import java.util.*;
@@ -100,15 +102,15 @@ public class Benchmarks {
             Result primaryResult = result.getPrimaryResult();
             BenchmarkParams params = result.getParams();
 
-            table.put(rowKey, "Benchmark", primaryResult.getLabel());
+            table.put(rowKey, "bench", primaryResult.getLabel());
             for (String key : params.getParamsKeys()) {
-                table.put(rowKey, "(" + key + ")", params.getParam(key));
+                table.put(rowKey, key.replaceAll("([A-Z])", "_$1").toLowerCase(), params.getParam(key));
             }
-            table.put(rowKey, "Mode", params.getMode());
-            table.put(rowKey, "Cnt", primaryResult.getSampleCount());
-            table.put(rowKey, "Score", primaryResult.getScore());
-            table.put(rowKey, "Error", primaryResult.getScoreError());
-            table.put(rowKey, "Units", primaryResult.getScoreUnit());
+            table.put(rowKey, "mode", params.getMode());
+            table.put(rowKey, "cnt", primaryResult.getSampleCount());
+            table.put(rowKey, "score", primaryResult.getScore());
+            table.put(rowKey, "error", primaryResult.getScoreError());
+            table.put(rowKey, "units", primaryResult.getScoreUnit());
             rowKey++;
         }
 

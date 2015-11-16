@@ -18,7 +18,7 @@
  * Author:  Nikolay Mavrenkov <koluch@koluch.ru>
  * Created: 16.11.2015 00:15
  */
-package ru.koluch.testJavaUtilConcurrency;
+package ru.koluch.testJavaUtilConcurrency.benchmarking;
 
 
 import com.google.common.collect.TreeBasedTable;
@@ -28,7 +28,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;

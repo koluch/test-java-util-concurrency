@@ -23,22 +23,7 @@ var fs = require("fs");
 
 var data = JSON.parse(fs.readFileSync("data.json"));
 
-for(var i = 0; i<data.length; i++) {
-    var row = data[i];
-
-    data[i] = {
-        'busy_factor': row['(busyFactor)'],
-        'data_size': row['(dataSize)'],
-        'benchmark': row['Benchmark'],
-        'cnt': row['Cnt'],
-        'score': row['Score'],
-        'units': row['Units']
-    }
-
-}
-
-function group() {
-    var ar = arguments[0];
+function group(ar) {
     var fs = Array.prototype.slice.call(arguments, 1);
     var f = fs[0];
     if(f) {
@@ -59,6 +44,29 @@ function group() {
     }
     else {
         return ar;
+    }
+}
+
+function sort(data) {
+    var fs = Array.prototype.slice.call(arguments, 1);
+    if(data.constructor === Array) {
+        var f = (x,y) => {
+            var result = 0;
+            for (var i = 0; i < fs.length; i++) {
+                var f = fs[i];
+                result = f(x,y);
+                if(result!=0) break;
+            }
+            return result;
+        };
+        return data.slice().sort(f);
+    }
+    else {
+        var result = {};
+        for(var i in data) {
+            result[i] = sort.apply(null, [data[i]].concat(fs));
+        }
+        return result;
     }
 }
 
@@ -108,11 +116,24 @@ function print(data, indent) {
 /*
     convenient helpers
  */
-function show(data, groups) {
-    var groupFs = groups === undefined ? [] : groups.split(",").map((group) => (row) => row[group]);
-    print(group.apply(null, [data].concat(groupFs)));
+function show(data, groupBy, sortBy) {
+    var groupFs = groupBy === undefined ? [] : groupBy.split(",").map(group => (row => row[group]));
+    
+    var sortF = sortBy === undefined 
+        ? ((x, y) => 0) 
+        : groupBy.split(",").map(field => ((row1, row2) => row1[field].localeCompare(row2[field])));
+
+    var grouped = group.apply(null, [data].concat(groupFs));
+    var sorted = sort.apply(null, [grouped].concat(sortF));
+    print(sorted);
 }
 
-// example: "node show_data.js busy_factor,data_size"
-show(data, process.argv[2]);
+// example: node show_data.js busy_factor,data_size
+var args = {};
+process.argv.slice(2).forEach(arg => {
+    if(!/^--.+=.+$/.test(arg)) throw new Error("Bad arg format: " + arg);
+    var parts = arg.split("=");
+    args[parts[0].replace(/^--/, "")] = parts[1];
+});
 
+show(data, args.groupBy, args.sortBy);

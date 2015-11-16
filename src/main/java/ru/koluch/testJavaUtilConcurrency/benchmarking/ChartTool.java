@@ -18,7 +18,7 @@
  * Author:  Nikolay Mavrenkov <koluch@koluch.ru>
  * Created: 15.11.2015 19:38
  */
-package ru.koluch.testJavaUtilConcurrency;
+package ru.koluch.testJavaUtilConcurrency.benchmarking;
 
 
 import static com.googlecode.charts4j.Color.*;

@@ -31,8 +31,9 @@ import org.openjdk.jmh.results.RunResult;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
-import ru.koluch.testJavaUtilConcurrency.CountDownLatchImpl;
-import ru.koluch.testJavaUtilConcurrency.SerialImpl;
+import ru.koluch.testJavaUtilConcurrency.CountDownLatchMapper;
+import ru.koluch.testJavaUtilConcurrency.ExecutorServiceMapper;
+import ru.koluch.testJavaUtilConcurrency.SerialMapper;
 
 import java.io.*;
 import java.util.*;
@@ -51,7 +52,6 @@ public class Benchmarks {
 
     Function<Integer, Integer> f;
     Set<Integer> data;
-    CountDownLatchImpl impl;
 
     @Setup
     public void init() {
@@ -71,12 +71,17 @@ public class Benchmarks {
 
     @Benchmark
     public Set<?> testSerial() {
-        return new SerialImpl().map(data, f);
+        return new SerialMapper().map(data, f);
     }
 
     @Benchmark
     public Set<?> testCountDownLatchImpl() {
-        return new CountDownLatchImpl().map(data, f);
+        return new CountDownLatchMapper().map(data, f);
+    }
+
+    @Benchmark
+    public Set<?> testExecutorServiceImpl() {
+        return new ExecutorServiceMapper().map(data, f);
     }
 
     public static void main(String[] args) throws Throwable {
@@ -87,11 +92,10 @@ public class Benchmarks {
                 .forks(1)
                 .build();
 
-        Collection<RunResult> results = new Runner(opt).run();
-        print(results);
+        dump(new Runner(opt).run());
     }
 
-    public static void print(Collection<RunResult> results) throws IOException {
+    public static void dump(Collection<RunResult> results) throws IOException {
 
         /*
          Build table by benchmark results

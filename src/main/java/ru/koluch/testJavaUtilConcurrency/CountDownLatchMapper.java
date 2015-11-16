@@ -22,7 +22,7 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
  * Created by Nikolai_Mavrenkov on 03/06/15.
  */
 @State(Scope.Thread)
-public class CountDownLatchImpl implements IMapper {
+public class CountDownLatchMapper implements IMapper {
 
     @Override
     public <T,R> Set<R> map(Set<T> set, Function<T, R> f) {

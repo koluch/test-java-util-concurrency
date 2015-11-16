@@ -25,7 +25,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Function;
 
-public class SerialImpl implements IMapper{
+public class SerialMapper implements IMapper{
 
     @Override
     public <T,R> Set<R> map(Set<T> list, Function<T,R> f) {

@@ -149,5 +149,5 @@ process.argv.slice(2).forEach(arg => {
     args[parts[0].replace(/^--/, "")] = parts[1];
 });
 
-// example: node show_data.js --groupBy=busy_factor,busy_factor --sortBy=score
+// example: > node show_data.js --groupBy=busy_factor,data_size --sortBy=score
 show(data, args.groupBy, args.sortBy);

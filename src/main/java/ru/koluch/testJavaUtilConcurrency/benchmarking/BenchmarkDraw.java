@@ -55,8 +55,8 @@ public class BenchmarkDraw {
         /*
             Group table rows by busy factor and draw chart for each
          */
-        String group1Column = "(dataSize)";
-        String group2Column = "(busyFactor)";
+        String group1Column = "data_size";
+        String group2Column = "busy_factor";
 
         Map<String, List<SortedMap<String, String>>> byBusyFactor = table.rowKeySet()
                 .stream()

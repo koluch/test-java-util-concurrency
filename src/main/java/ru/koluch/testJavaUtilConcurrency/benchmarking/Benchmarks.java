@@ -37,7 +37,9 @@ import ru.koluch.testJavaUtilConcurrency.SerialMapper;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @State(Scope.Benchmark)
 public class Benchmarks {
@@ -52,9 +54,13 @@ public class Benchmarks {
 
     Function<Integer, Integer> f;
     Set<Integer> data;
+    ExecutorService executor;
 
+    /*
+        Init and stop functions
+     */
     @Setup
-    public void init() {
+    public void setup() {
 
         f = x -> {
             Blackhole.consumeCPU(1000 * busyFactor);
@@ -67,8 +73,18 @@ public class Benchmarks {
                 data.add(random.nextInt());
             }
         }
+        executor = Executors.newFixedThreadPool(4);
     }
 
+    @TearDown
+    public void tearDown() {
+        executor.shutdown();
+    }
+
+
+    /*
+        Benchmarks
+     */
     @Benchmark
     public Set<?> testSerial() {
         return new SerialMapper().map(data, f);
@@ -81,14 +97,17 @@ public class Benchmarks {
 
     @Benchmark
     public Set<?> testExecutorServiceImpl() {
-        return new ExecutorServiceMapper().map(data, f);
+        return new ExecutorServiceMapper(executor).map(data, f);
     }
 
+    /*
+        Running and dumping results
+     */
     public static void main(String[] args) throws Throwable {
         Options opt = new OptionsBuilder()
                 .include(Benchmarks.class.getSimpleName())
-                .warmupIterations(5)
-                .measurementIterations(5)
+                .warmupIterations(1)
+                .measurementIterations(1)
                 .forks(1)
                 .build();
 

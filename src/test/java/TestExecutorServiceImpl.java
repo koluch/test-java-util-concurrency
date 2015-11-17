@@ -4,6 +4,8 @@ import ru.koluch.testJavaUtilConcurrency.ExecutorServiceMapper;
 import ru.koluch.testJavaUtilConcurrency.SerialMapper;
 
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Function;
 
 import static junit.framework.Assert.assertEquals;
@@ -16,14 +18,6 @@ public class TestExecutorServiceImpl {
     @Test
     public void testEquals() {
 
-//        Function<Integer, Integer> f = x -> x * x;
-//
-//        List<Integer> data = new ArrayList<>();
-//        Random random = new Random(42);
-//        for (int i = 0; i < 10000; i++) {
-//            data.add(random.nextInt());
-//        }
-
         Function<Integer, Integer> f = x -> {
             Blackhole.consumeCPU(1000 * 10);
             return x * x;
@@ -35,10 +29,16 @@ public class TestExecutorServiceImpl {
                 data.add(random.nextInt());
             }
         }
+        ExecutorService executor = Executors.newFixedThreadPool(4);
+        try {
 
-        Set<Integer> serial = new SerialMapper().map(new HashSet<>(data), f);
-        Set<Integer> parallel = new ExecutorServiceMapper().map(new HashSet<>(data), f);
-        assertEquals(serial, parallel);
+            Set<Integer> serial = new SerialMapper().map(new HashSet<>(data), f);
+            Set<Integer> parallel = new ExecutorServiceMapper(executor).map(new HashSet<>(data), f);
+            assertEquals(serial, parallel);
+        }
+        finally {
+            executor.shutdown();
+        }
     }
 
 }

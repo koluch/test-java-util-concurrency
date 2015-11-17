@@ -17,11 +17,15 @@ import java.util.stream.Collectors;
 @State(Scope.Thread)
 public class ExecutorServiceMapper implements IMapper {
 
+
+    private static ExecutorService executor;
+
+    public ExecutorServiceMapper(ExecutorService executor) {
+        this.executor = executor;
+    }
+
     @Override
     public <T, R> Set<R> map(Set<T> set, Function<T, R> f) {
-
-//        ThreadPoolExecutor executor = new ThreadPoolExecutor(4, 4, 2000, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<>(100));
-        ExecutorService executor = Executors.newFixedThreadPool(4);
 
         List<Callable<R>> runnables = set.stream()
                 .map((x) -> (Callable<R>) () -> f.apply(x))

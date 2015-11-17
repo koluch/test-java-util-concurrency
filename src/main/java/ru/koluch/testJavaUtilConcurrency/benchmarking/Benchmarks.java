@@ -54,7 +54,9 @@ public class Benchmarks {
 
     Function<Integer, Integer> f;
     Set<Integer> data;
-    ExecutorService executor;
+    ExecutorService executor1;
+    ExecutorService executor2;
+    ExecutorService executor3;
 
     /*
         Init and stop functions
@@ -73,12 +75,16 @@ public class Benchmarks {
                 data.add(random.nextInt());
             }
         }
-        executor = Executors.newFixedThreadPool(4);
+        executor1 = Executors.newFixedThreadPool(4);
+        executor2 = Executors.newFixedThreadPool(8);
+        executor3 = Executors.newFixedThreadPool(16);
     }
 
     @TearDown
     public void tearDown() {
-        executor.shutdown();
+        executor1.shutdown();
+        executor2.shutdown();
+        executor3.shutdown();
     }
 
 
@@ -96,8 +102,18 @@ public class Benchmarks {
     }
 
     @Benchmark
-    public Set<?> testExecutorServiceImpl() {
-        return new ExecutorServiceMapper(executor).map(data, f);
+    public Set<?> testExecutorServiceImpl1() {
+        return new ExecutorServiceMapper(executor1).map(data, f);
+    }
+
+    @Benchmark
+    public Set<?> testExecutorServiceImpl2() {
+        return new ExecutorServiceMapper(executor2).map(data, f);
+    }
+
+    @Benchmark
+    public Set<?> testExecutorServiceImpl3() {
+        return new ExecutorServiceMapper(executor3).map(data, f);
     }
 
     /*

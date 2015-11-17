@@ -72,12 +72,12 @@ public class BenchmarkDraw {
             Map<String, List<SortedMap<String, String>>> byBench = group1ToRows
                     .getValue()
                     .stream()
-                    .collect(Collectors.groupingBy((row) -> (String) row.get("Benchmark")));
+                    .collect(Collectors.groupingBy((row) -> (String) row.get("bench")));
             for (Map.Entry<String, List<SortedMap<String, String>>> benchToRows: byBench.entrySet()){
                 String bench = benchToRows.getKey();
                 List<SortedMap<String, String>> rows = benchToRows.getValue();
                 List<Double> series = rows.stream()
-                        .map((row) -> Double.valueOf(row.get("Score")))
+                        .map((row) -> Double.valueOf(row.get("score")))
                         .collect(Collectors.toList());
                 seriesList.put(bench, series);
             }

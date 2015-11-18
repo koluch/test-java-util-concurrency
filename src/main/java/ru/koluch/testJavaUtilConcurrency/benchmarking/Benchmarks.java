@@ -156,7 +156,9 @@ public class Benchmarks {
         /*
             Dump data to JSON file
          */
-        Gson gson = new Gson();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        Gson gson = gsonBuilder.create();
         JsonArray tableJson = new JsonArray();
         for (Map.Entry<Integer, Map<String, Object>> row : table.rowMap().entrySet()) {
             JsonObject rowJson = new JsonObject();

@@ -1,1 +1,452 @@
-[{"bench":"testCountDownLatchImpl","busy_factor":"10","cnt":"1","data_size":"10","error":"NaN","mode":"Throughput","score":"1168.832416561519","units":"ops/s"},{"bench":"testCountDownLatchImpl","busy_factor":"10","cnt":"1","data_size":"100","error":"NaN","mode":"Throughput","score":"126.85055134006508","units":"ops/s"},{"bench":"testCountDownLatchImpl","busy_factor":"10","cnt":"1","data_size":"1000","error":"NaN","mode":"Throughput","score":"13.97776509754273","units":"ops/s"},{"bench":"testCountDownLatchImpl","busy_factor":"100","cnt":"1","data_size":"10","error":"NaN","mode":"Throughput","score":"918.1012902159084","units":"ops/s"},{"bench":"testCountDownLatchImpl","busy_factor":"100","cnt":"1","data_size":"100","error":"NaN","mode":"Throughput","score":"110.02239709087301","units":"ops/s"},{"bench":"testCountDownLatchImpl","busy_factor":"100","cnt":"1","data_size":"1000","error":"NaN","mode":"Throughput","score":"11.13692580391073","units":"ops/s"},{"bench":"testCountDownLatchImpl","busy_factor":"1000","cnt":"1","data_size":"10","error":"NaN","mode":"Throughput","score":"173.49135680881497","units":"ops/s"},{"bench":"testCountDownLatchImpl","busy_factor":"1000","cnt":"1","data_size":"100","error":"NaN","mode":"Throughput","score":"22.58486710602678","units":"ops/s"},{"bench":"testCountDownLatchImpl","busy_factor":"1000","cnt":"1","data_size":"1000","error":"NaN","mode":"Throughput","score":"2.606186024208777","units":"ops/s"},{"bench":"testExecutorServiceImpl1","busy_factor":"10","cnt":"1","data_size":"10","error":"NaN","mode":"Throughput","score":"7210.48404898531","units":"ops/s"},{"bench":"testExecutorServiceImpl1","busy_factor":"10","cnt":"1","data_size":"100","error":"NaN","mode":"Throughput","score":"1452.9748720902353","units":"ops/s"},{"bench":"testExecutorServiceImpl1","busy_factor":"10","cnt":"1","data_size":"1000","error":"NaN","mode":"Throughput","score":"152.07819021625937","units":"ops/s"},{"bench":"testExecutorServiceImpl1","busy_factor":"100","cnt":"1","data_size":"10","error":"NaN","mode":"Throughput","score":"1301.6288109620812","units":"ops/s"},{"bench":"testExecutorServiceImpl1","busy_factor":"100","cnt":"1","data_size":"100","error":"NaN","mode":"Throughput","score":"152.4926134137646","units":"ops/s"},{"bench":"testExecutorServiceImpl1","busy_factor":"100","cnt":"1","data_size":"1000","error":"NaN","mode":"Throughput","score":"16.166911577308163","units":"ops/s"},{"bench":"testExecutorServiceImpl1","busy_factor":"1000","cnt":"1","data_size":"10","error":"NaN","mode":"Throughput","score":"135.84752515819565","units":"ops/s"},{"bench":"testExecutorServiceImpl1","busy_factor":"1000","cnt":"1","data_size":"100","error":"NaN","mode":"Throughput","score":"16.543137646825492","units":"ops/s"},{"bench":"testExecutorServiceImpl1","busy_factor":"1000","cnt":"1","data_size":"1000","error":"NaN","mode":"Throughput","score":"1.5729414037754252","units":"ops/s"},{"bench":"testExecutorServiceImpl2","busy_factor":"10","cnt":"1","data_size":"10","error":"NaN","mode":"Throughput","score":"9148.624805797848","units":"ops/s"},{"bench":"testExecutorServiceImpl2","busy_factor":"10","cnt":"1","data_size":"100","error":"NaN","mode":"Throughput","score":"1781.0495643863078","units":"ops/s"},{"bench":"testExecutorServiceImpl2","busy_factor":"10","cnt":"1","data_size":"1000","error":"NaN","mode":"Throughput","score":"250.43773858287815","units":"ops/s"},{"bench":"testExecutorServiceImpl2","busy_factor":"100","cnt":"1","data_size":"10","error":"NaN","mode":"Throughput","score":"1551.8835632373844","units":"ops/s"},{"bench":"testExecutorServiceImpl2","busy_factor":"100","cnt":"1","data_size":"100","error":"NaN","mode":"Throughput","score":"228.25390281580354","units":"ops/s"},{"bench":"testExecutorServiceImpl2","busy_factor":"100","cnt":"1","data_size":"1000","error":"NaN","mode":"Throughput","score":"27.670740080596307","units":"ops/s"},{"bench":"testExecutorServiceImpl2","busy_factor":"1000","cnt":"1","data_size":"10","error":"NaN","mode":"Throughput","score":"147.580672253159","units":"ops/s"},{"bench":"testExecutorServiceImpl2","busy_factor":"1000","cnt":"1","data_size":"100","error":"NaN","mode":"Throughput","score":"26.663379578897977","units":"ops/s"},{"bench":"testExecutorServiceImpl2","busy_factor":"1000","cnt":"1","data_size":"1000","error":"NaN","mode":"Throughput","score":"2.591145403016508","units":"ops/s"},{"bench":"testExecutorServiceImpl3","busy_factor":"10","cnt":"1","data_size":"10","error":"NaN","mode":"Throughput","score":"8806.435413418858","units":"ops/s"},{"bench":"testExecutorServiceImpl3","busy_factor":"10","cnt":"1","data_size":"100","error":"NaN","mode":"Throughput","score":"1792.1884206718082","units":"ops/s"},{"bench":"testExecutorServiceImpl3","busy_factor":"10","cnt":"1","data_size":"1000","error":"NaN","mode":"Throughput","score":"234.59019713311076","units":"ops/s"},{"bench":"testExecutorServiceImpl3","busy_factor":"100","cnt":"1","data_size":"10","error":"NaN","mode":"Throughput","score":"1540.924217479462","units":"ops/s"},{"bench":"testExecutorServiceImpl3","busy_factor":"100","cnt":"1","data_size":"100","error":"NaN","mode":"Throughput","score":"229.19786591475417","units":"ops/s"},{"bench":"testExecutorServiceImpl3","busy_factor":"100","cnt":"1","data_size":"1000","error":"NaN","mode":"Throughput","score":"27.249906325527373","units":"ops/s"},{"bench":"testExecutorServiceImpl3","busy_factor":"1000","cnt":"1","data_size":"10","error":"NaN","mode":"Throughput","score":"191.03928502305826","units":"ops/s"},{"bench":"testExecutorServiceImpl3","busy_factor":"1000","cnt":"1","data_size":"100","error":"NaN","mode":"Throughput","score":"23.44880827938964","units":"ops/s"},{"bench":"testExecutorServiceImpl3","busy_factor":"1000","cnt":"1","data_size":"1000","error":"NaN","mode":"Throughput","score":"2.522238764147666","units":"ops/s"},{"bench":"testSerial","busy_factor":"10","cnt":"1","data_size":"10","error":"NaN","mode":"Throughput","score":"4164.92930469111","units":"ops/s"},{"bench":"testSerial","busy_factor":"10","cnt":"1","data_size":"100","error":"NaN","mode":"Throughput","score":"406.6149601032483","units":"ops/s"},{"bench":"testSerial","busy_factor":"10","cnt":"1","data_size":"1000","error":"NaN","mode":"Throughput","score":"37.56796243080457","units":"ops/s"},{"bench":"testSerial","busy_factor":"100","cnt":"1","data_size":"10","error":"NaN","mode":"Throughput","score":"415.93486136875646","units":"ops/s"},{"bench":"testSerial","busy_factor":"100","cnt":"1","data_size":"100","error":"NaN","mode":"Throughput","score":"38.00804891189154","units":"ops/s"},{"bench":"testSerial","busy_factor":"100","cnt":"1","data_size":"1000","error":"NaN","mode":"Throughput","score":"3.746706233083434","units":"ops/s"},{"bench":"testSerial","busy_factor":"1000","cnt":"1","data_size":"10","error":"NaN","mode":"Throughput","score":"41.00959931219481","units":"ops/s"},{"bench":"testSerial","busy_factor":"1000","cnt":"1","data_size":"100","error":"NaN","mode":"Throughput","score":"4.091806088828254","units":"ops/s"},{"bench":"testSerial","busy_factor":"1000","cnt":"1","data_size":"1000","error":"NaN","mode":"Throughput","score":"0.39855614380268034","units":"ops/s"}]
+[
+  {
+    "bench": "testCountDownLatchImpl",
+    "busy_factor": "10",
+    "cnt": "1",
+    "data_size": "10",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "553.9161058356925",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testCountDownLatchImpl",
+    "busy_factor": "10",
+    "cnt": "1",
+    "data_size": "100",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "142.09887910555884",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testCountDownLatchImpl",
+    "busy_factor": "10",
+    "cnt": "1",
+    "data_size": "1000",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "13.79751665534454",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testCountDownLatchImpl",
+    "busy_factor": "100",
+    "cnt": "1",
+    "data_size": "10",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "695.43513933016",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testCountDownLatchImpl",
+    "busy_factor": "100",
+    "cnt": "1",
+    "data_size": "100",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "78.07061986032451",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testCountDownLatchImpl",
+    "busy_factor": "100",
+    "cnt": "1",
+    "data_size": "1000",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "7.666813568884208",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testCountDownLatchImpl",
+    "busy_factor": "1000",
+    "cnt": "1",
+    "data_size": "10",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "108.56470968794149",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testCountDownLatchImpl",
+    "busy_factor": "1000",
+    "cnt": "1",
+    "data_size": "100",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "11.267726267244036",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testCountDownLatchImpl",
+    "busy_factor": "1000",
+    "cnt": "1",
+    "data_size": "1000",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "1.111237379162443",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testExecutorServiceImpl1",
+    "busy_factor": "10",
+    "cnt": "1",
+    "data_size": "10",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "9305.2382503335",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testExecutorServiceImpl1",
+    "busy_factor": "10",
+    "cnt": "1",
+    "data_size": "100",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "1193.4133009259938",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testExecutorServiceImpl1",
+    "busy_factor": "10",
+    "cnt": "1",
+    "data_size": "1000",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "132.39569810659876",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testExecutorServiceImpl1",
+    "busy_factor": "100",
+    "cnt": "1",
+    "data_size": "10",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "987.9345637370429",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testExecutorServiceImpl1",
+    "busy_factor": "100",
+    "cnt": "1",
+    "data_size": "100",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "133.35678661225884",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testExecutorServiceImpl1",
+    "busy_factor": "100",
+    "cnt": "1",
+    "data_size": "1000",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "12.556531351402956",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testExecutorServiceImpl1",
+    "busy_factor": "1000",
+    "cnt": "1",
+    "data_size": "10",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "85.87867255405044",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testExecutorServiceImpl1",
+    "busy_factor": "1000",
+    "cnt": "1",
+    "data_size": "100",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "13.690100722002027",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testExecutorServiceImpl1",
+    "busy_factor": "1000",
+    "cnt": "1",
+    "data_size": "1000",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "1.3785329862737767",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testExecutorServiceImpl2",
+    "busy_factor": "10",
+    "cnt": "1",
+    "data_size": "10",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "6786.174202228963",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testExecutorServiceImpl2",
+    "busy_factor": "10",
+    "cnt": "1",
+    "data_size": "100",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "1014.9353210554412",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testExecutorServiceImpl2",
+    "busy_factor": "10",
+    "cnt": "1",
+    "data_size": "1000",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "115.90118238245523",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testExecutorServiceImpl2",
+    "busy_factor": "100",
+    "cnt": "1",
+    "data_size": "10",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "1070.8556087366114",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testExecutorServiceImpl2",
+    "busy_factor": "100",
+    "cnt": "1",
+    "data_size": "100",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "119.04047399924069",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testExecutorServiceImpl2",
+    "busy_factor": "100",
+    "cnt": "1",
+    "data_size": "1000",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "12.59837612804491",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testExecutorServiceImpl2",
+    "busy_factor": "1000",
+    "cnt": "1",
+    "data_size": "10",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "98.98643291950405",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testExecutorServiceImpl2",
+    "busy_factor": "1000",
+    "cnt": "1",
+    "data_size": "100",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "12.101759904671198",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testExecutorServiceImpl2",
+    "busy_factor": "1000",
+    "cnt": "1",
+    "data_size": "1000",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "1.4400279556659112",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testExecutorServiceImpl3",
+    "busy_factor": "10",
+    "cnt": "1",
+    "data_size": "10",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "9500.612107867508",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testExecutorServiceImpl3",
+    "busy_factor": "10",
+    "cnt": "1",
+    "data_size": "100",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "1089.6641448069518",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testExecutorServiceImpl3",
+    "busy_factor": "10",
+    "cnt": "1",
+    "data_size": "1000",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "114.0732271407717",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testExecutorServiceImpl3",
+    "busy_factor": "100",
+    "cnt": "1",
+    "data_size": "10",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "909.3959147272208",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testExecutorServiceImpl3",
+    "busy_factor": "100",
+    "cnt": "1",
+    "data_size": "100",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "84.42004425751608",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testExecutorServiceImpl3",
+    "busy_factor": "100",
+    "cnt": "1",
+    "data_size": "1000",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "10.43939995529588",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testExecutorServiceImpl3",
+    "busy_factor": "1000",
+    "cnt": "1",
+    "data_size": "10",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "119.47370399704852",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testExecutorServiceImpl3",
+    "busy_factor": "1000",
+    "cnt": "1",
+    "data_size": "100",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "11.10100477691962",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testExecutorServiceImpl3",
+    "busy_factor": "1000",
+    "cnt": "1",
+    "data_size": "1000",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "1.378008172721187",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testSerial",
+    "busy_factor": "10",
+    "cnt": "1",
+    "data_size": "10",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "3743.3036864475703",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testSerial",
+    "busy_factor": "10",
+    "cnt": "1",
+    "data_size": "100",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "385.2103419117015",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testSerial",
+    "busy_factor": "10",
+    "cnt": "1",
+    "data_size": "1000",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "38.693394125351624",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testSerial",
+    "busy_factor": "100",
+    "cnt": "1",
+    "data_size": "10",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "390.24835193068657",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testSerial",
+    "busy_factor": "100",
+    "cnt": "1",
+    "data_size": "100",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "39.07830309022262",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testSerial",
+    "busy_factor": "100",
+    "cnt": "1",
+    "data_size": "1000",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "3.9241943443592846",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testSerial",
+    "busy_factor": "1000",
+    "cnt": "1",
+    "data_size": "10",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "39.41279608195502",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testSerial",
+    "busy_factor": "1000",
+    "cnt": "1",
+    "data_size": "100",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "3.9219371703488637",
+    "units": "ops/s"
+  },
+  {
+    "bench": "testSerial",
+    "busy_factor": "1000",
+    "cnt": "1",
+    "data_size": "1000",
+    "error": "NaN",
+    "mode": "Throughput",
+    "score": "0.3923329891783121",
+    "units": "ops/s"
+  }
+]

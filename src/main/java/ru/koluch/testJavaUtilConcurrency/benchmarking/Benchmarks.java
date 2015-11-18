@@ -31,15 +31,14 @@ import org.openjdk.jmh.results.RunResult;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
-import ru.koluch.testJavaUtilConcurrency.CountDownLatchMapper;
-import ru.koluch.testJavaUtilConcurrency.ExecutorServiceMapper;
-import ru.koluch.testJavaUtilConcurrency.SerialMapper;
+import ru.koluch.testJavaUtilConcurrency.setsMapping.CountDownLatchMapper;
+import ru.koluch.testJavaUtilConcurrency.setsMapping.ExecutorServiceMapper;
+import ru.koluch.testJavaUtilConcurrency.setsMapping.SerialMapper;
 
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @State(Scope.Benchmark)
 public class Benchmarks {

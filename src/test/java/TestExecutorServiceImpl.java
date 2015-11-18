@@ -1,11 +1,10 @@
 import org.junit.Test;
 import org.openjdk.jmh.infra.Blackhole;
-import ru.koluch.testJavaUtilConcurrency.ExecutorServiceMapper;
-import ru.koluch.testJavaUtilConcurrency.SerialMapper;
+import ru.koluch.testJavaUtilConcurrency.setsMapping.ExecutorServiceMapper;
+import ru.koluch.testJavaUtilConcurrency.setsMapping.SerialMapper;
 
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 import java.util.function.Function;
 
 import static junit.framework.Assert.assertEquals;
@@ -25,7 +24,7 @@ public class TestExecutorServiceImpl {
         Set<Integer> data = new HashSet<>();
         {
             Random random = new Random();
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 10000; i++) {
                 data.add(random.nextInt());
             }
         }

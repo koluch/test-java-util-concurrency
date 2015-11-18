@@ -1,6 +1,6 @@
 import org.junit.Test;
-import ru.koluch.testJavaUtilConcurrency.CountDownLatchMapper;
-import ru.koluch.testJavaUtilConcurrency.SerialMapper;
+import ru.koluch.testJavaUtilConcurrency.setsMapping.CountDownLatchMapper;
+import ru.koluch.testJavaUtilConcurrency.setsMapping.SerialMapper;
 
 import java.util.*;
 import java.util.function.Function;

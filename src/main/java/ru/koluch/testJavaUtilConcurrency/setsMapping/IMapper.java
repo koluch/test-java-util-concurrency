@@ -1,4 +1,4 @@
-package ru.koluch.testJavaUtilConcurrency;
+package ru.koluch.testJavaUtilConcurrency.setsMapping;
 
 import java.util.Set;
 import java.util.function.Function;

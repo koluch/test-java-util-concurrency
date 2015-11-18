@@ -16,24 +16,15 @@
  * --------------------------------------------------------------------
  * <p/>
  * Author:  Nikolay Mavrenkov <koluch@koluch.ru>
- * Created: 16.11.2015 03:16
+ * Created: 19.11.2015 01:18
  */
-package ru.koluch.testJavaUtilConcurrency;
+package ru.koluch.testJavaUtilConcurrency.listSorting;
 
+import java.util.Comparator;
+import java.util.List;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.function.Function;
+public interface ISorter<T> {
 
-public class SerialMapper implements IMapper{
-
-    @Override
-    public <T,R> Set<R> map(Set<T> list, Function<T,R> f) {
-        HashSet<R> result = new HashSet<>();
-        for (T x : list) {
-            result.add(f.apply(x));
-        }
-        return result;
-    }
+    List<T> sort(List<T> list, Comparator<T> comparator);
 
 }

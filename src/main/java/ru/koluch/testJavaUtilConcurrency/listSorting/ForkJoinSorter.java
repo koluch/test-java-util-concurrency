@@ -33,6 +33,7 @@ public class ForkJoinSorter<T> implements ISorter<T>{
 
 
     ForkJoinPool forkJoinPool;
+    private final static int THRESHOLD = 10000;
 
     public ForkJoinSorter(ForkJoinPool forkJoinPool) {
         this.forkJoinPool = forkJoinPool;
@@ -52,9 +53,9 @@ public class ForkJoinSorter<T> implements ISorter<T>{
             this.comp = comp;
         }
 
-        @Override
-        protected List<T> compute() {
+        private List<T> aux(List<T> list, int start, int end, Comparator<T> comp) {
             if(end!=start) {
+                // Splitting
                 int pivot = start;
                 int i = start+1;
                 int j = start+1;
@@ -72,17 +73,29 @@ public class ForkJoinSorter<T> implements ISorter<T>{
                 list.set(newPivot, list.get(pivot));
                 list.set(pivot, tmp);
 
-                SortingTask<T> sortBefore = new SortingTask<T>(list, start, newPivot, comp);
-                SortingTask<T> sortAfter = new SortingTask<T>(list, newPivot+1, end, comp);
+                if(end - start > THRESHOLD) {
+                    // Go recursive
+                    SortingTask<T> sortBefore = new SortingTask<T>(list, start, newPivot, comp);
+                    SortingTask<T> sortAfter = new SortingTask<T>(list, newPivot+1, end, comp);
 
-                ForkJoinTask<List<T>> forked1 = sortBefore.fork();
-                ForkJoinTask<List<T>> forked2 = sortAfter.fork();
+                    ForkJoinTask<List<T>> forked1 = sortBefore.fork();
+                    ForkJoinTask<List<T>> forked2 = sortAfter.fork();
 
-                forked1.join();
-                forked2.join();
+                    forked1.join();
+                    forked2.join();
+                }
+                else {
+                    aux(list, start, newPivot, comp);
+                    aux(list, newPivot+1, end, comp);
+                }
 
             }
             return list;
+        }
+
+        @Override
+        protected List<T> compute() {
+            return aux(list, start, end, comp);
         }
     }
 

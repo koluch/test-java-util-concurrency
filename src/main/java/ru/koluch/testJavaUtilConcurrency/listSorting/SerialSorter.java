@@ -25,9 +25,6 @@ import java.util.*;
 
 public class SerialSorter<T> implements ISorter<T>{
 
-    private static final Random random = new Random(42);
-
-
 
     @Override
     public List<T> sort(List<T> list, Comparator<T> comparator) {

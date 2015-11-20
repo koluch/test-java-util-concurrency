@@ -31,6 +31,8 @@ import org.openjdk.jmh.results.RunResult;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
+import ru.koluch.testJavaUtilConcurrency.listSorting.ForkJoinSorter;
+import ru.koluch.testJavaUtilConcurrency.listSorting.SerialSorter;
 import ru.koluch.testJavaUtilConcurrency.setsMapping.CountDownLatchMapper;
 import ru.koluch.testJavaUtilConcurrency.setsMapping.ExecutorServiceMapper;
 import ru.koluch.testJavaUtilConcurrency.setsMapping.SerialMapper;
@@ -52,10 +54,12 @@ public class Benchmarks {
     public int busyFactor;
 
     Function<Integer, Integer> f;
-    Set<Integer> data;
+    Set<Integer> set;
+    List<Integer> list;
     ExecutorService executor1;
     ExecutorService executor2;
     ExecutorService executor3;
+    ForkJoinPool forkJoinPool;
 
     /*
         Init and stop functions
@@ -67,16 +71,25 @@ public class Benchmarks {
             Blackhole.consumeCPU(1000 * busyFactor);
             return x * x;
         };
-        data = new HashSet<>();
+        set = new HashSet<>();
         {
             Random random = new Random();
             for (int i = 0; i < dataSize; i++) {
-                data.add(random.nextInt());
+                set.add(random.nextInt());
+            }
+        }
+        list = new ArrayList<>();
+        {
+            Random random = new Random();
+            for (int i = 0; i < dataSize; i++) {
+                list.add(random.nextInt());
             }
         }
         executor1 = Executors.newFixedThreadPool(4);
         executor2 = Executors.newFixedThreadPool(8);
         executor3 = Executors.newFixedThreadPool(16);
+        forkJoinPool = new ForkJoinPool();
+
     }
 
     @TearDown
@@ -91,28 +104,38 @@ public class Benchmarks {
         Benchmarks
      */
     @Benchmark
-    public Set<?> testSerial() {
-        return new SerialMapper().map(data, f);
+    public Object testMapperSerial() {
+        return new SerialMapper().map(set, f);
     }
 
     @Benchmark
-    public Set<?> testCountDownLatchImpl() {
-        return new CountDownLatchMapper().map(data, f);
+    public Object testMapperCountDownLatch() {
+        return new CountDownLatchMapper().map(set, f);
     }
 
     @Benchmark
-    public Set<?> testExecutorServiceImpl1() {
-        return new ExecutorServiceMapper(executor1).map(data, f);
+    public Object testMapperExecutorService() {
+        return new ExecutorServiceMapper(executor1).map(set, f);
     }
 
     @Benchmark
-    public Set<?> testExecutorServiceImpl2() {
-        return new ExecutorServiceMapper(executor2).map(data, f);
+    public Object testMapperExecutorService2() {
+        return new ExecutorServiceMapper(executor2).map(set, f);
     }
 
     @Benchmark
-    public Set<?> testExecutorServiceImpl3() {
-        return new ExecutorServiceMapper(executor3).map(data, f);
+    public Object testMapperExecutorService3() {
+        return new ExecutorServiceMapper(executor3).map(set, f);
+    }
+
+    @Benchmark
+    public Object testSorterSerial() {
+        return new SerialSorter<Integer>().sort(list, Integer::compareTo);
+    }
+
+    @Benchmark
+    public Object testSorterForkJoin() {
+        return new ForkJoinSorter<Integer>(forkJoinPool).sort(list, Integer::compareTo);
     }
 
     /*

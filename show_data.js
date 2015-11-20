@@ -131,8 +131,6 @@ function show(data, groupBy, sortBy) {
     var groupFs = groupBy === undefined ? [] : groupBy.split(",").map(group => (row => row[group]));
     
     var sortF = sortBy === undefined ? ((x, y) => 0) : sortBy.split(",").map(field => ((row1, row2) => {
-        console.log("compare1: " + JSON.stringify(row1[field]));
-        console.log("compare2: " + JSON.stringify(row2[field]));
         return comp(row1[field], row2[field])
     }));
 

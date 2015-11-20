@@ -45,13 +45,16 @@ import java.util.function.Function;
 @State(Scope.Benchmark)
 public class Benchmarks {
 
-    @Param({"10","100","1000"})
-//    @Param({"10"})
+//    @Param({"1000","10000","100000"})
+    @Param({"10"})
     public int dataSize;
 
-    @Param({"10","100","1000"})
+        @Param({"1000","10000","100000"})
 //    @Param({"10"})
     public int busyFactor;
+
+    @Param({"100","1000","10000"})
+    public int threshold;
 
     Function<Integer, Integer> f;
     Set<Integer> set;
@@ -75,14 +78,14 @@ public class Benchmarks {
         {
             Random random = new Random();
             for (int i = 0; i < dataSize; i++) {
-                set.add(random.nextInt());
+                set.add(random.nextInt(dataSize));
             }
         }
         list = new ArrayList<>();
         {
             Random random = new Random();
             for (int i = 0; i < dataSize; i++) {
-                list.add(random.nextInt());
+                list.add(random.nextInt(dataSize));
             }
         }
         executor1 = Executors.newFixedThreadPool(4);
@@ -135,7 +138,7 @@ public class Benchmarks {
 
     @Benchmark
     public Object testSorterForkJoin() {
-        return new ForkJoinSorter<Integer>(forkJoinPool).sort(list, Integer::compareTo);
+        return new ForkJoinSorter<Integer>(forkJoinPool, threshold).sort(list, Integer::compareTo);
     }
 
     /*
@@ -144,8 +147,8 @@ public class Benchmarks {
     public static void main(String[] args) throws Throwable {
         Options opt = new OptionsBuilder()
                 .include(Benchmarks.class.getSimpleName())
-                .warmupIterations(1)
-                .measurementIterations(1)
+                .warmupIterations(3)
+                .measurementIterations(3)
                 .forks(1)
                 .build();
 

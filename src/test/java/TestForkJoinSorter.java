@@ -38,7 +38,7 @@ public class TestForkJoinSorter {
 
     @Before
     public void init() {
-        sorter = new ForkJoinSorter<>(new ForkJoinPool());
+        sorter = new ForkJoinSorter<>(new ForkJoinPool(), 10);
         random = new Random(42);
     }
 
@@ -58,7 +58,7 @@ public class TestForkJoinSorter {
     public void randomTest() {
         List<Integer> data = new ArrayList<>();
         for (int i = 0; i < 100000; i++) {
-            data.add(random.nextInt(100000));
+            data.add(random.nextInt());
         }
 
         List<Integer> sorted = sorter.sort(data, Integer::compareTo);

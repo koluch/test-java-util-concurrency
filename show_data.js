@@ -19,6 +19,11 @@
  * Author:  Nikolay Mavrenkov <koluch@koluch.ru>
  * Created: 16.11.2015 02:14
  */
+
+/**
+ * example: node show_data.js data.json --group=data_size,threshold --show=data_size,threshold,bench,score,error,units --sort=bench-
+ */
+
 var fs = require("fs");
 
 /*
@@ -216,7 +221,5 @@ args.forEach((arg) => {
         default: throw new Error("Unknown argument: " + arg.name)
     }
 });
+
 print(data);
-
-
-// example: > node show_data.js data.js --groupBy=busy_factor,data_size --sortBy=score

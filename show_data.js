@@ -21,8 +21,6 @@
  */
 var fs = require("fs");
 
-var data = JSON.parse(fs.readFileSync("data.json"));
-
 /*
     Basic table-data manipulation functions
  */
@@ -175,7 +173,8 @@ function commaVals(arg) {
 /*
     Parse arguments and run tasks by them
  */
-var args = process.argv.slice(2).map((arg) => {
+var dataFile = process.argv[2];
+var args = process.argv.slice(3).map((arg) => {
     if(!/^--.+=.+$/.test(arg)) throw new Error("Bad arg format: " + arg);
     var parts = arg.split("=");
     return {
@@ -184,12 +183,12 @@ var args = process.argv.slice(2).map((arg) => {
     };
 });
 
-var processedData = data;
+var data = JSON.parse(fs.readFileSync(dataFile));
 args.forEach((arg) => {
     switch(arg.name) {
         case "group": {
             var groupFs = commaVals(arg.value).map(group => (row => row[group]));
-            processedData = group(processedData, groupFs);
+            data = group(data, groupFs);
             break;
         }
         case "sort": {
@@ -203,20 +202,21 @@ args.forEach((arg) => {
                     return comp(row1[field], row2[field]) * (desc ? -1 : 1)
                 })
             });
-            processedData = sort(processedData, sortF);
+            data = sort(data, sortF);
             break;
         }
         case "hide": {
-            processedData = hideFields(processedData, commaVals(arg.value));
+            data = hideFields(data, commaVals(arg.value));
             break;
         }
         case "show": {
-            processedData = showFields(processedData, commaVals(arg.value));
+            data = showFields(data, commaVals(arg.value));
             break;
         }
         default: throw new Error("Unknown argument: " + arg.name)
     }
 });
-print(processedData);
+print(data);
 
-// example: > node show_data.js --groupBy=busy_factor,data_size --sortBy=score
+
+// example: > node show_data.js data.js --groupBy=busy_factor,data_size --sortBy=score

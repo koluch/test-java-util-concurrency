@@ -70,6 +70,28 @@ function sort(data) {
     }
 }
 
+function hideFields(data, fields) {
+    var fs = Array.prototype.slice.call(arguments, 1);
+    if(data.constructor === Array) {
+        return data.map((row) => {
+            var result = {};
+            for(var i in row) {
+                if(fields.indexOf(i)==-1) {
+                    result[i] = row[i];
+                }
+            }
+            return result;
+        })
+    }
+    else {
+        var result = {};
+        for(var i in data) {
+            result[i] = hideFields.apply(null, [data[i]].concat(fs));
+        }
+        return result;
+    }
+}
+
 function comp(v1, v2) {
     var asNumber1 = new Number(v1);
     var asNumber2 = new Number(v2);
@@ -127,19 +149,19 @@ function print(data, indent) {
 /*
     convenient helpers
  */
-function show(data, groupBy, sortBy) {
-    var groupFs = groupBy === undefined ? [] : groupBy.split(",").map(group => (row => row[group]));
-    
-    var sortF = sortBy === undefined ? ((x, y) => 0) : sortBy.split(",").map(field => ((row1, row2) => {
-        return comp(row1[field], row2[field])
-    }));
+function show(data, groupBy, sortBy, hide) {
+    var groupFs = groupBy.map(group => (row => row[group]));
+    var sortF = sortBy.map(field => ((row1, row2) => comp(row1[field], row2[field])));
 
-    
     var grouped = group.apply(null, [data].concat(groupFs));
     var sorted = sort.apply(null, [grouped].concat(sortF));
-    print(sorted);
+    var hiddenColumns = hideFields(sorted, hide);
+    print(hiddenColumns);
 }
 
+/*
+    parse arguments
+ */
 var args = {};
 process.argv.slice(2).forEach(arg => {
     if(!/^--.+=.+$/.test(arg)) throw new Error("Bad arg format: " + arg);
@@ -147,5 +169,9 @@ process.argv.slice(2).forEach(arg => {
     args[parts[0].replace(/^--/, "")] = parts[1];
 });
 
+var groupBy = args.group === undefined ? [] : args.group.split(",");
+var sortBy = args.sort === undefined ? [] : args.sort.split(",");
+var hide = args.hide === undefined ? [] : args.hide.split(",");
+
 // example: > node show_data.js --groupBy=busy_factor,data_size --sortBy=score
-show(data, args.groupBy, args.sortBy);
+show(data, groupBy, sortBy, hide);

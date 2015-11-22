@@ -113,6 +113,9 @@ function showFields(data, fields) {
     aux
  */
 function comp(v1, v2) {
+    if(v1 == v2) return 0;
+    if(v1 == undefined) return -1;
+    if(v2 == undefined) return 1;
     var asNumber1 = new Number(v1);
     var asNumber2 = new Number(v2);
     if(!isNaN(asNumber1) && !isNaN(asNumber2)) {
@@ -190,7 +193,16 @@ args.forEach((arg) => {
             break;
         }
         case "sort": {
-            var sortF = commaVals(arg.value).map(field => ((row1, row2) => comp(row1[field], row2[field])));
+            var sortF = commaVals(arg.value).map(field => {
+                var desc = false;
+                if(/[\+\-]$/.test(field)) {
+                    desc = field.charAt(field.length - 1) === "-";
+                    field = field.substr(0, field.length - 1);
+                }
+                return ((row1, row2) => {
+                    return comp(row1[field], row2[field]) * (desc ? -1 : 1)
+                })
+            });
             processedData = sort(processedData, sortF);
             break;
         }

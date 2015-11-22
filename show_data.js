@@ -23,6 +23,29 @@ var fs = require("fs");
 
 var data = JSON.parse(fs.readFileSync("data.json"));
 
+/*
+    Basic table-data manipulation functions
+ */
+function for_group(data, f) {
+    if(data.constructor === Array) {
+        return f(data.slice());
+    }
+    else {
+        var result = {};
+        for(var i in data) {
+            result[i] = for_group(data[i], f);
+        }
+        return result;
+    }
+}
+
+function tmap(data, f) {
+    return for_group(data, (group) => group.map(f));
+}
+
+/*
+    Special functions to handle data - sorting, grouping and so on
+ */
 function group(ar) {
     var fs = Array.prototype.slice.call(arguments, 1);
     var f = fs[0];
@@ -49,8 +72,8 @@ function group(ar) {
 
 function sort(data) {
     var fs = Array.prototype.slice.call(arguments, 1);
-    if(data.constructor === Array) {
-        var f = (x,y) => {
+    return for_group(data, (group) => (
+        group.sort((x,y) => {
             var result = 0;
             for (var i = 0; i < fs.length; i++) {
                 var f = fs[i];
@@ -58,40 +81,26 @@ function sort(data) {
                 if(result!=0) break;
             }
             return result;
-        };
-        return data.slice().sort(f);
-    }
-    else {
-        var result = {};
-        for(var i in data) {
-            result[i] = sort.apply(null, [data[i]].concat(fs));
-        }
-        return result;
-    }
+        })
+    ));
 }
 
 function hideFields(data, fields) {
-    var fs = Array.prototype.slice.call(arguments, 1);
-    if(data.constructor === Array) {
-        return data.map((row) => {
-            var result = {};
-            for(var i in row) {
-                if(fields.indexOf(i)==-1) {
-                    result[i] = row[i];
-                }
-            }
-            return result;
-        })
-    }
-    else {
+    return tmap(data, (row) => {
         var result = {};
-        for(var i in data) {
-            result[i] = hideFields.apply(null, [data[i]].concat(fs));
+        for(var i in row) {
+            if(fields.indexOf(i)==-1) {
+                result[i] = row[i];
+            }
         }
         return result;
-    }
+    });
 }
 
+
+/*
+    aux
+ */
 function comp(v1, v2) {
     var asNumber1 = new Number(v1);
     var asNumber2 = new Number(v2);
@@ -102,7 +111,6 @@ function comp(v1, v2) {
         return v1.localeCompare(v2);
     }
 }
-
 
 function printColumn(str, length) {
     var s = str;

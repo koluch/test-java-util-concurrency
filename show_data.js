@@ -46,8 +46,7 @@ function tmap(data, f) {
 /*
     Special functions to handle data - sorting, grouping and so on
  */
-function group(ar) {
-    var fs = Array.prototype.slice.call(arguments, 1);
+function group(ar, fs) {
     var f = fs[0];
     if(f) {
         var result = {};
@@ -61,7 +60,7 @@ function group(ar) {
         }
         var restFs = fs.slice(1);
         for(var i in result) {
-            result[i] = group.apply(null, [result[i]].concat(restFs));
+            result[i] = group(result[i], restFs);
         }
         return result;
     }
@@ -70,8 +69,7 @@ function group(ar) {
     }
 }
 
-function sort(data) {
-    var fs = Array.prototype.slice.call(arguments, 1);
+function sort(data, fs) {
     return for_group(data, (group) => (
         group.sort((x,y) => {
             var result = 0;
@@ -91,6 +89,19 @@ function hideFields(data, fields) {
         for(var i in row) {
             if(fields.indexOf(i)==-1) {
                 result[i] = row[i];
+            }
+        }
+        return result;
+    });
+}
+
+function showFields(data, fields) {
+    return tmap(data, (row) => {
+        var result = {};
+        for (var i = 0; i < fields.length; i++) {
+            var field = fields[i];
+            if(row[field]!==undefined) {
+                result[field] = row[field];
             }
         }
         return result;
@@ -154,32 +165,46 @@ function print(data, indent) {
     }
 }
 
-/*
-    convenient helpers
- */
-function show(data, groupBy, sortBy, hide) {
-    var groupFs = groupBy.map(group => (row => row[group]));
-    var sortF = sortBy.map(field => ((row1, row2) => comp(row1[field], row2[field])));
-
-    var grouped = group.apply(null, [data].concat(groupFs));
-    var sorted = sort.apply(null, [grouped].concat(sortF));
-    var hiddenColumns = hideFields(sorted, hide);
-    print(hiddenColumns);
+function commaVals(arg) {
+    return arg === undefined ? [] : arg.split(",")
 }
 
 /*
-    parse arguments
+    Parse arguments and run tasks by them
  */
-var args = {};
-process.argv.slice(2).forEach(arg => {
+var args = process.argv.slice(2).map((arg) => {
     if(!/^--.+=.+$/.test(arg)) throw new Error("Bad arg format: " + arg);
     var parts = arg.split("=");
-    args[parts[0].replace(/^--/, "")] = parts[1];
+    return {
+        name:parts[0].replace(/^--/, ""),
+        value:parts[1]
+    };
 });
 
-var groupBy = args.group === undefined ? [] : args.group.split(",");
-var sortBy = args.sort === undefined ? [] : args.sort.split(",");
-var hide = args.hide === undefined ? [] : args.hide.split(",");
+var processedData = data;
+args.forEach((arg) => {
+    switch(arg.name) {
+        case "group": {
+            var groupFs = commaVals(arg.value).map(group => (row => row[group]));
+            processedData = group(processedData, groupFs);
+            break;
+        }
+        case "sort": {
+            var sortF = commaVals(arg.value).map(field => ((row1, row2) => comp(row1[field], row2[field])));
+            processedData = sort(processedData, sortF);
+            break;
+        }
+        case "hide": {
+            processedData = hideFields(processedData, commaVals(arg.value));
+            break;
+        }
+        case "show": {
+            processedData = showFields(processedData, commaVals(arg.value));
+            break;
+        }
+        default: throw new Error("Unknown argument: " + arg.name)
+    }
+});
+print(processedData);
 
 // example: > node show_data.js --groupBy=busy_factor,data_size --sortBy=score
-show(data, groupBy, sortBy, hide);

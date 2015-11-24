@@ -70,7 +70,25 @@ public class BenchmarkTool {
         for (Map.Entry<Integer, Map<String, Object>> row : table.rowMap().entrySet()) {
             JsonObject rowJson = new JsonObject();
             for (Map.Entry<String, Object> keyValue : row.getValue().entrySet()) {
-                rowJson.add(keyValue.getKey(), new JsonPrimitive(keyValue.getValue().toString()));
+                Object value = keyValue.getValue();
+                if(value == null) {
+                    rowJson.add(keyValue.getKey(), JsonNull.INSTANCE);
+                }
+                else if(value instanceof Number) {
+                    Number num = (Number) value;
+                    if(num instanceof Double && ((Double) num).isNaN()) {
+                        rowJson.add(keyValue.getKey(), JsonNull.INSTANCE);
+                    }
+                    else {
+                        rowJson.add(keyValue.getKey(), new JsonPrimitive(num));
+                    }
+                }
+                else if(value instanceof Boolean) {
+                    rowJson.add(keyValue.getKey(), new JsonPrimitive((Boolean)value));
+                }
+                else {
+                    rowJson.add(keyValue.getKey(), new JsonPrimitive(value.toString()));
+                }
             }
             tableJson.add(rowJson);
         }

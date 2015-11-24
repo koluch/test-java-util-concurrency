@@ -133,7 +133,7 @@ function collectWidthMap(data, header) {
 
     tmap(data, row => {
         for(var i in row) {
-            result[i] = Math.max(result[i] || 0, (row[i] || "").length);
+            result[i] = Math.max(result[i] || 0, ('' + (row[i] || '')).length);
         }
     });
     header.forEach((col) => {result[col] = Math.max(result[col] || 0, col.length)});
@@ -162,11 +162,11 @@ function print(data) {
     var widthMap = collectWidthMap(data, header);
 
     function printColumn(str, length) {
-        var s = str;
+        str = '' + str;
         for(var i = str.length; i<length; ++i) {
-            s+=" ";
+            str+=" ";
         }
-        return s;
+        return str;
     }
 
     function aux(data, indent) {

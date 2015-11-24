@@ -29,21 +29,21 @@ var fs = require("fs");
 /*
     Basic table-data manipulation functions
  */
-function for_group(data, f) {
+function forGroup(data, f) {
     if(data.constructor === Array) {
         return f(data.slice());
     }
     else {
         var result = {};
         for(var i in data) {
-            result[i] = for_group(data[i], f);
+            result[i] = forGroup(data[i], f);
         }
         return result;
     }
 }
 
 function tmap(data, f) {
-    return for_group(data, (group) => group.map(f));
+    return forGroup(data, (group) => group.map(f));
 }
 
 /*
@@ -73,7 +73,7 @@ function group(ar, fs) {
 }
 
 function sort(data, fs) {
-    return for_group(data, (group) => (
+    return forGroup(data, (group) => (
         group.sort((x,y) => {
             var result = 0;
             for (var i = 0; i < fs.length; i++) {
@@ -115,6 +115,18 @@ function showFields(data, fields) {
 /*
     aux
  */
+function fetchHeader(data) {
+    var result = [];
+    tmap(data, row => {
+        Object.keys(row).forEach((key) => {
+            if(result.indexOf(key)==-1) {
+                result.push(key)
+            }
+        });
+    });
+    return result;
+}
+
 function comp(v1, v2) {
     if(v1 == v2) return 0;
     if(v1 == undefined) return -1;
@@ -140,35 +152,41 @@ function printColumn(str, length) {
 function print(data, indent) {
     var colWidth = 25;
 
-    indent = indent || 0;
-    if(data.constructor === Array) {
-        var firstRow = data[0];
-        if(firstRow) {
-            var str = "";
-            for(var k = 0; k<indent; k++) {str += "    ";}
-            for(var i in firstRow) {
-                str += printColumn("~" + i + "~", colWidth);
+    var header = fetchHeader(data);
+    
+    function aux(data, indent) {
+        if(data.constructor === Array) {
+            var firstRow = data[0];
+            if(firstRow) {
+                var str = "";
+                for(var k = 0; k<indent; k++) {str += "    ";}
+                header.forEach((col) => {
+                    str += printColumn("~" + col + "~", colWidth);
+                });
+                console.log(str);
             }
-            console.log(str);
+            for (var i = 0; i < data.length; i++) {
+                var str = "";
+                for(var k = 0; k<indent; k++) {str += "    ";}
+                var row = data[i];
+                header.forEach((col) => {
+                    str += printColumn(row[col] || "...", colWidth);
+                });
+                console.log(str);
+            }
         }
-        for (var i = 0; i < data.length; i++) {
-            var str = "";
-            for(var k = 0; k<indent; k++) {str += "    ";}
-            var row = data[i];
-            for(var j in row) {
-                str += printColumn(row[j], colWidth);
+        else {
+            for(var i in data) {
+                var str = "";
+                for(var k = 0; k<indent; k++) {str += "    ";}
+                console.log(str + i + ":");
+                aux(data[i], indent + 1)
             }
-            console.log(str);
         }
     }
-    else {
-        for(var i in data) {
-            var str = "";
-            for(var k = 0; k<indent; k++) {str += "    ";}
-            console.log(str + i + ":");
-            print(data[i], indent + 1)
-        }
-    }
+
+    aux(data, 0);
+
 }
 
 function commaVals(arg) {

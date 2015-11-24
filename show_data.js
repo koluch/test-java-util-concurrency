@@ -115,7 +115,7 @@ function showFields(data, fields) {
 /*
     aux
  */
-function fetchHeader(data) {
+function collectHeader(data) {
     var result = [];
     tmap(data, row => {
         Object.keys(row).forEach((key) => {
@@ -124,6 +124,19 @@ function fetchHeader(data) {
             }
         });
     });
+    return result;
+}
+
+function collectWidthMap(data, header) {
+    header = header || [];
+    var result = {};
+
+    tmap(data, row => {
+        for(var i in row) {
+            result[i] = Math.max(result[i] || 0, (row[i] || "").length);
+        }
+    });
+    header.forEach((col) => {result[col] = Math.max(result[col] || 0, col.length)});
     return result;
 }
 
@@ -141,19 +154,21 @@ function comp(v1, v2) {
     }
 }
 
-function printColumn(str, length) {
-    var s = str;
-    for(var i = str.length; i<length; ++i) {
-        s+=" ";
-    }
-    return s;
-}
-
 function print(data) {
-    var colWidth = 25;
 
-    var header = fetchHeader(data);
-    
+    var margin = 3 + 4;
+
+    var header = collectHeader(data);
+    var widthMap = collectWidthMap(data, header);
+
+    function printColumn(str, length) {
+        var s = str;
+        for(var i = str.length; i<length; ++i) {
+            s+=" ";
+        }
+        return s;
+    }
+
     function aux(data, indent) {
         if(data.constructor === Array) {
             var firstRow = data[0];
@@ -161,7 +176,7 @@ function print(data) {
                 var str = "";
                 for(var k = 0; k<indent; k++) {str += "    ";}
                 header.forEach((col) => {
-                    str += printColumn("~" + col + "~", colWidth);
+                    str += printColumn("~" + col + "~", widthMap[col] + margin);
                 });
                 console.log(str);
             }
@@ -170,7 +185,7 @@ function print(data) {
                 for(var k = 0; k<indent; k++) {str += "    ";}
                 var row = data[i];
                 header.forEach((col) => {
-                    str += printColumn(row[col] || "...", colWidth);
+                    str += printColumn(row[col] || "...", widthMap[col] + margin);
                 });
                 console.log(str);
             }

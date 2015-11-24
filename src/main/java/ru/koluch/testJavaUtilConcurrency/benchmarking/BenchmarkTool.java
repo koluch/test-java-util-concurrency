@@ -65,6 +65,7 @@ public class BenchmarkTool {
          */
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
+        gsonBuilder.serializeNulls();
         Gson gson = gsonBuilder.create();
         JsonArray tableJson = new JsonArray();
         for (Map.Entry<Integer, Map<String, Object>> row : table.rowMap().entrySet()) {
@@ -85,6 +86,9 @@ public class BenchmarkTool {
                 }
                 else if(value instanceof Boolean) {
                     rowJson.add(keyValue.getKey(), new JsonPrimitive((Boolean)value));
+                }
+                else if(value instanceof Character) {
+                    rowJson.add(keyValue.getKey(), new JsonPrimitive((Character)value));
                 }
                 else {
                     rowJson.add(keyValue.getKey(), new JsonPrimitive(value.toString()));

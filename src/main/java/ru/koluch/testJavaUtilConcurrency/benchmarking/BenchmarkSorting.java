@@ -32,40 +32,55 @@ import java.util.concurrent.ForkJoinPool;
 
 @State(Scope.Benchmark)
 public class BenchmarkSorting {
-    @Param({"1000","10000","100000"})
-//    @Param({"10"})
-    public int dataSize;
 
-    @Param({"100","1000","10000","20000"})
-    public int threshold;
 
-    List<Integer> list;
-    ForkJoinPool forkJoinPool;
+    @State(Scope.Benchmark)
+    public static class PoolsState {
+        ForkJoinPool forkJoinPool;
 
-    /*
-        Init and stop functions
-     */
-    @Setup
-    public void setup() {
-        list = new ArrayList<>();
-        {
-            Random random = new Random();
-            for (int i = 0; i < dataSize; i++) {
-                list.add(random.nextInt(dataSize));
+        @Setup
+        public void setup() {
+            forkJoinPool = new ForkJoinPool();
+        }
+
+    }
+
+    @State(Scope.Benchmark)
+    public static class DataState {
+        @Param({"1000","10000","100000"})
+        public int dataSize;
+
+        List<Integer> list;
+
+        @Setup
+        public void setup() {
+            list = new ArrayList<>();
+            {
+                Random random = new Random();
+                for (int i = 0; i < dataSize; i++) {
+                    list.add(random.nextInt(dataSize));
+                }
             }
         }
-        forkJoinPool = new ForkJoinPool();
+    }
+
+    @State(Scope.Benchmark)
+    public static class ThresholdState {
+        @Param({"100","1000","10000","20000"})
+        public int threshold;
     }
 
 
+
+
     @Benchmark
-    public Object testSorterSerial() {
-        return new SerialSorter<Integer>().sort(list, Integer::compareTo);
+    public Object testSorterSerial(DataState dataState) {
+        return new SerialSorter<Integer>().sort(dataState.list, Integer::compareTo);
     }
 
     @Benchmark
-    public Object testSorterForkJoin() {
-        return new ForkJoinSorter<Integer>(forkJoinPool, threshold).sort(list, Integer::compareTo);
+    public Object testSorterForkJoin(PoolsState poolsState, DataState dataState, ThresholdState thresholdState) {
+        return new ForkJoinSorter<Integer>(poolsState.forkJoinPool, thresholdState.threshold).sort(dataState.list, Integer::compareTo);
     }
 
 
@@ -75,8 +90,8 @@ public class BenchmarkSorting {
     public static void main(String[] args) throws Throwable {
         Options opt = new OptionsBuilder()
                 .include(BenchmarkSorting.class.getSimpleName())
-                .warmupIterations(3)
-                .measurementIterations(6)
+                .warmupIterations(1)
+                .measurementIterations(1)
                 .forks(1)
                 .build();
 

@@ -57,13 +57,6 @@ public class ForkJoinSorter<T> implements ISorter<T>{
             if(list.size() > threshold) {
                 int splitPoint = list.size() / 2;
 
-                Iterator<T> iterator = list.iterator();
-
-                int part = list.size() / 8;
-
-
-
-
                 List<T> left = list.subList(0, splitPoint);
                 List<T> right = list.subList(splitPoint, list.size());
 

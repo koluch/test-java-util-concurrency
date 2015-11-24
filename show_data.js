@@ -149,7 +149,7 @@ function printColumn(str, length) {
     return s;
 }
 
-function print(data, indent) {
+function print(data) {
     var colWidth = 25;
 
     var header = fetchHeader(data);

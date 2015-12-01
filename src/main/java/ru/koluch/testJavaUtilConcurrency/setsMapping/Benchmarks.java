@@ -18,7 +18,7 @@
  * Author:  Nikolay Mavrenkov <koluch@koluch.ru>
  * Created: 15.11.2015 18:08
  */
-package ru.koluch.testJavaUtilConcurrency.benchmarking;
+package ru.koluch.testJavaUtilConcurrency.setsMapping;
 
 
 import org.openjdk.jmh.annotations.*;
@@ -26,16 +26,14 @@ import org.openjdk.jmh.infra.Blackhole;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
-import ru.koluch.testJavaUtilConcurrency.setsMapping.CountDownLatchMapper;
-import ru.koluch.testJavaUtilConcurrency.setsMapping.ExecutorServiceMapper;
-import ru.koluch.testJavaUtilConcurrency.setsMapping.SerialMapper;
+import ru.koluch.testJavaUtilConcurrency.benchmarking.BenchmarkTool;
 
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.Function;
 
 @State(Scope.Benchmark)
-public class BenchmarkMapping {
+public class Benchmarks {
 
     @Param({"1000","10000","100000"})
 //    @Param({"10"})
@@ -128,7 +126,7 @@ public class BenchmarkMapping {
      */
     public static void main(String[] args) throws Throwable {
         Options opt = new OptionsBuilder()
-                .include(BenchmarkMapping.class.getSimpleName())
+                .include(Benchmarks.class.getCanonicalName())
                 .warmupIterations(3)
                 .measurementIterations(3)
                 .forks(1)

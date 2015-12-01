@@ -18,30 +18,41 @@
  * Author:  Nikolay Mavrenkov <koluch@koluch.ru>
  * Created: 21.11.2015 02:56
  */
-package ru.koluch.testJavaUtilConcurrency.benchmarking;
+package ru.koluch.testJavaUtilConcurrency.listSorting;
 
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
-import ru.koluch.testJavaUtilConcurrency.listSorting.ForkJoinSorter;
-import ru.koluch.testJavaUtilConcurrency.listSorting.SerialSorter;
+import ru.koluch.testJavaUtilConcurrency.benchmarking.BenchmarkTool;
 
 import java.util.*;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ThreadPoolExecutor;
 
 @State(Scope.Benchmark)
-public class BenchmarkSorting {
+public class Benchmarks {
+
 
 
     @State(Scope.Benchmark)
-    public static class PoolsState {
+    public static class SingleValueState {
         ForkJoinPool forkJoinPool;
+        ThreadPoolExecutor threadPoolExecutor;
 
         @Setup
         public void setup() {
             forkJoinPool = new ForkJoinPool();
+            threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(32);
         }
+
+        @TearDown
+        public void tearDown() {
+            forkJoinPool.shutdownNow();
+            threadPoolExecutor.shutdownNow();
+        }
+
 
     }
 
@@ -71,16 +82,19 @@ public class BenchmarkSorting {
     }
 
 
-
-
     @Benchmark
     public Object testSorterSerial(DataState dataState) {
         return new SerialSorter<Integer>().sort(dataState.list, Integer::compareTo);
     }
 
     @Benchmark
-    public Object testSorterForkJoin(PoolsState poolsState, DataState dataState, ThresholdState thresholdState) {
-        return new ForkJoinSorter<Integer>(poolsState.forkJoinPool, thresholdState.threshold).sort(dataState.list, Integer::compareTo);
+    public Object testSorterForkJoin(SingleValueState singleValueState, DataState dataState, ThresholdState thresholdState) {
+        return new ForkJoinSorter<Integer>(singleValueState.forkJoinPool, thresholdState.threshold).sort(dataState.list, Integer::compareTo);
+    }
+
+    @Benchmark
+    public Object testSorterBarrier(SingleValueState singleValueState, DataState dataState) {
+        return new BarrierSorter<Integer>(singleValueState.threadPoolExecutor).sort(dataState.list, Integer::compareTo);
     }
 
 
@@ -89,9 +103,9 @@ public class BenchmarkSorting {
      */
     public static void main(String[] args) throws Throwable {
         Options opt = new OptionsBuilder()
-                .include(BenchmarkSorting.class.getSimpleName())
-                .warmupIterations(1)
-                .measurementIterations(1)
+                .include(Benchmarks.class.getCanonicalName())
+                .warmupIterations(5)
+                .measurementIterations(8)
                 .forks(1)
                 .build();
 

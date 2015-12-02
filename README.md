@@ -1,1 +1,3 @@
-# test-java-util-concurrency 
+# test-java-util-concurrency
+
+Just some experiments with concurrency in Java 
